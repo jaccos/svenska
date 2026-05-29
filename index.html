@@ -109,6 +109,22 @@
   .revempty{text-align:center;color:var(--ink-soft);padding:50px 20px;font-size:16px;line-height:1.6;}
   .revstat{text-align:center;font-size:13px;color:var(--ink-soft);margin-bottom:14px;}
   .revreset{display:block;margin:8px auto 0;background:none;border:none;color:var(--ink-soft);font-size:12px;text-decoration:underline;cursor:pointer;}
+  .coffee{margin:14px 0 2px;width:100%;border:none;border-radius:20px;cursor:pointer;text-align:left;padding:18px 20px;color:#f3ebdd;background:linear-gradient(135deg,var(--amber) 0%,var(--rust) 100%);box-shadow:0 8px 24px -10px rgba(168,62,44,.55);display:flex;align-items:center;gap:16px;}
+  .coffee:active{transform:scale(.99);}
+  .coffee .cicon{font-size:34px;flex:0 0 auto;line-height:1;}
+  .coffee .ctext{flex:1;}
+  .coffee .clbl{font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;opacity:.85;}
+  .coffee .cmain{font-family:'Fraunces',serif;font-size:23px;font-weight:600;line-height:1.05;margin-top:2px;}
+  .coffee .csub{font-size:13px;opacity:.9;margin-top:3px;}
+  .coffee .cgo{flex:0 0 auto;font-size:24px;opacity:.9;}
+  .coffee.empty{background:linear-gradient(135deg,var(--green) 0%,var(--green-d) 100%);box-shadow:0 8px 24px -12px rgba(35,70,59,.5);}
+  .streak{display:flex;align-items:center;justify-content:center;gap:7px;margin:12px 0 2px;font-size:14px;font-weight:700;color:var(--amber-d);}
+  .streak .fire{font-size:18px;filter:grayscale(1);opacity:.4;}
+  .streak.active .fire{filter:none;opacity:1;}
+  .streak .rest{font-size:12px;font-weight:600;color:var(--ink-soft);}
+  .donebanner{margin:14px 0 2px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 20px;text-align:center;box-shadow:var(--shadow);}
+  .donebanner .dbig{font-family:'Fraunces',serif;font-size:21px;font-weight:600;color:var(--green-d);}
+  .donebanner .dsmall{font-size:14px;color:var(--ink-soft);margin-top:6px;line-height:1.45;}
   .hidden{display:none!important;}
 </style>
 </head>
@@ -124,6 +140,8 @@
     </div>
   </header>
   <div id="viewLes">
+    <div id="coffeeSlot"></div>
+    <div class="streak" id="streak"></div>
     <button class="resume" id="resume"><span class="ricon">&#9654;</span><span><span class="rlbl">Hervatten</span><br><span class="rtitle" id="resumeTitle"></span></span></button>
     <div class="bar"><h2>Lessen</h2><div class="toggle" id="autoToggle"><span>Auto-volgende</span><span class="sw"></span></div></div>
     <ul id="list"></ul>
@@ -282,17 +300,84 @@ function openDict(sv,nl,lesson){
 $('#dictClose').addEventListener('click',()=>$('#dict').classList.remove('up'));
 $('#dSave').addEventListener('click',()=>{toggleCard(dSv,dNl,dLesson);const saved=!!srs[cardId(dSv)];$('#dSave').textContent=saved?'\u2713 Bewaard':'+ Bewaar';$('#dSave').classList.toggle('saved',saved);if($('#sheet').classList.contains('up'))openStudy(studyLesson);});
 
+/* ---------- STREAK (koffie-ritme, vergeeflijk) ---------- */
+const STREAKKEY='svenska_streak_v1';
+let streak={count:0,last:null,reviewedToday:0};
+function loadStreak(){try{let r=localStorage.getItem(STREAKKEY);if(r)streak=Object.assign(streak,JSON.parse(r));}catch(e){}}
+function saveStreak(){try{localStorage.setItem(STREAKKEY,JSON.stringify(streak));}catch(e){}}
+function todayStr(){const d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}
+function daysBetween(a,b){const pa=new Date(a+'T00:00:00'),pb=new Date(b+'T00:00:00');return Math.round((pb-pa)/DAY);}
+function rolloverStreak(){
+  const t=todayStr();
+  if(streak.last===t)return;          /* al iets gedaan vandaag */
+  if(streak.last){
+    const gap=daysBetween(streak.last,t);
+    if(gap>2)streak.count=0;           /* 1 rustdag toegestaan; 2+ gemist -> reset */
+  }
+  streak.reviewedToday=0;             /* nieuwe dag: teller leeg */
+  saveStreak();
+}
+/* een geslaagde oefendag markeren */
+function markPracticed(){
+  const t=todayStr();
+  if(streak.last!==t){
+    /* tel deze dag mee. opeenvolgend? dan +1, anders opnieuw beginnen op 1 */
+    if(streak.last && daysBetween(streak.last,t)<=2)streak.count++;
+    else streak.count=1;
+    streak.last=t;
+  }
+  saveStreak();renderStreak();
+}
+function renderStreak(){
+  const el=$('#streak');
+  if(streak.count<=0){el.innerHTML='';return;}
+  const did=streak.last===todayStr();
+  el.className='streak'+(did?' active':'');
+  el.innerHTML='<span class="fire">\ud83d\udd25</span> '+streak.count+' dag'+(streak.count===1?'':'en')+' op rij'+(did?'':' <span class="rest">\u00b7 vandaag nog niet</span>');
+}
+
 /* ---------- SRS ---------- */
 const DAY=86400000;
 function dueCards(){const now=Date.now();return Object.keys(srs).filter(id=>srs[id].due<=now).map(id=>({id,...srs[id]}));}
-function updateDue(){$('#dueBadge').textContent=dueCards().length;}
+function updateDue(){$('#dueBadge').textContent=dueCards().length;renderCoffee();}
 let revQueue=[],revIdx=0,revFlipped=false;
+let coffeeMode=false;   /* tijdens koffie-sessie tonen we afsluit-feedback */
+
+function renderCoffee(){
+  const slot=$('#coffeeSlot');
+  const total=Object.keys(srs).length;
+  const due=dueCards().length;
+  if(!total){
+    slot.innerHTML='<button class="coffee empty" onclick="showTab(\'oef\')"><span class="cicon">\u2615</span><span class="ctext"><span class="clbl">Koffie-oefening</span><span class="cmain">Vul eerst je deck</span><span class="csub">Open Woorden bij een les \u2192 voeg woorden toe</span></span><span class="cgo">\u203a</span></button>';
+    return;
+  }
+  if(due>0){
+    slot.innerHTML='<button class="coffee" onclick="startCoffee()"><span class="cicon">\u2615</span><span class="ctext"><span class="clbl">Koffie-oefening</span><span class="cmain">'+due+' woord'+(due===1?'':'en')+' klaar</span><span class="csub">~'+Math.max(1,Math.round(due*0.25))+' min \u00b7 terwijl de koffie loopt</span></span><span class="cgo">\u203a</span></button>';
+  }else{
+    const did=streak.last===todayStr();
+    slot.innerHTML='<button class="coffee empty" onclick="showTab(\'oef\')"><span class="cicon">'+(did?'\u2705':'\u2615')+'</span><span class="ctext"><span class="clbl">Koffie-oefening</span><span class="cmain">'+(did?'Klaar voor vandaag':'Niks te herhalen nu')+'</span><span class="csub">'+total+' woorden in je deck</span></span><span class="cgo">\u203a</span></button>';
+  }
+}
+function startCoffee(){coffeeMode=true;showTab('oef');startReview();}
+window.startCoffee=startCoffee;
+
 function startReview(){revQueue=dueCards();revIdx=0;revFlipped=false;renderReview();}
 function renderReview(){
   const area=$('#reviewArea');const total=Object.keys(srs).length;
   if(!total){area.innerHTML='<div class="revempty">Nog geen woorden in je deck.<br>Open <b>Woorden</b> bij een les en tik <b>+ Alle woorden in herhaal-deck</b>.</div>';return;}
   if(!revQueue.length||revIdx>=revQueue.length){revQueue=dueCards();revIdx=0;}
-  if(!revQueue.length){area.innerHTML='<div class="revstat">'+total+' woorden in je deck</div><div class="revempty">\u2728 Niks te herhalen nu.<br>Kom later terug \u2014 herhalingen worden uitgesmeerd in de tijd.</div><button class="revreset" onclick="resetDeck()">deck wissen</button>';return;}
+  if(!revQueue.length){
+    let extra='';
+    if(coffeeMode && streak.reviewedToday>0){
+      const nextDue=Object.keys(srs).filter(id=>srs[id].due>Date.now()).length;
+      extra='<div class="donebanner"><div class="dbig">\u2615 Klaar \u2014 '+streak.reviewedToday+' woord'+(streak.reviewedToday===1?'':'en')+' herhaald</div><div class="dsmall">'+
+        (streak.count>0?'\ud83d\udd25 '+streak.count+' dag'+(streak.count===1?'':'en')+' op rij. ':'')+
+        'Morgen weer een paar bij je koffie. Tot dan.</div></div>';
+      coffeeMode=false;
+    }
+    area.innerHTML='<div class="revstat">'+total+' woorden in je deck</div>'+extra+'<div class="revempty">\u2728 Niks te herhalen nu.<br>Kom later terug \u2014 herhalingen worden uitgesmeerd in de tijd.</div><button class="revreset" onclick="resetDeck()">deck wissen</button>';
+    return;
+  }
   const c=revQueue[revIdx];
   area.innerHTML='<div class="revstat">'+(revIdx+1)+' / '+revQueue.length+' te herhalen \u00b7 '+total+' in deck</div>'+
     '<div class="revcard"><div class="revsv">'+c.sv+'</div>'+
@@ -303,7 +388,9 @@ function renderReview(){
 function flipCard(){revFlipped=true;renderReview();}
 function grade(q){const c=revQueue[revIdx];const card=srs[c.id];if(!card){revIdx++;revFlipped=false;renderReview();return;}
   if(q<3){card.iv=0;card.reps=0;}else{card.reps++;card.ease=Math.max(1.3,card.ease+(0.1-(5-q)*(0.08+(5-q)*0.02)));if(card.reps===1)card.iv=1;else if(card.reps===2)card.iv=6;else card.iv=Math.round(card.iv*card.ease);}
-  card.due=Date.now()+(q<3?60000:card.iv*DAY);saveSrs();revIdx++;revFlipped=false;renderReview();}
+  card.due=Date.now()+(q<3?60000:card.iv*DAY);saveSrs();
+  streak.reviewedToday++;markPracticed();
+  revIdx++;revFlipped=false;renderReview();}
 function resetDeck(){if(confirm('Hele herhaal-deck wissen?')){srs={};saveSrs();startReview();}}
 window.flipCard=flipCard;window.grade=grade;window.resetDeck=resetDeck;
 
@@ -319,7 +406,7 @@ function setupMedia(){if(!('mediaSession'in navigator))return;
   navigator.mediaSession.setActionHandler('seekbackward',()=>{audio.currentTime=Math.max(0,audio.currentTime-15);});
   navigator.mediaSession.setActionHandler('seekforward',()=>{audio.currentTime=Math.min(audio.duration||0,audio.currentTime+15);});}
 
-load();syncAuto();render();setupMedia();updateDue();
+load();loadStreak();rolloverStreak();syncAuto();render();setupMedia();updateDue();renderStreak();
 </script>
 </body>
 </html>

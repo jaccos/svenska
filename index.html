@@ -11,171 +11,178 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --paper:#f3ebdd; --paper2:#ece1cd; --ink:#2b3a2e; --ink-soft:#4f6052;
-    --green:#2f5d4f; --green-d:#23463b; --amber:#d98324; --amber-d:#b86a13;
-    --rust:#a83e2c; --line:rgba(43,58,46,.14); --done:#7a9c6b;
-    --card:#fbf6ec; --shadow:0 2px 0 rgba(43,58,46,.06),0 8px 24px -12px rgba(43,58,46,.35);
-  }
+  :root{--paper:#f3ebdd;--paper2:#ece1cd;--ink:#2b3a2e;--ink-soft:#4f6052;--green:#2f5d4f;--green-d:#23463b;--amber:#d98324;--amber-d:#b86a13;--rust:#a83e2c;--line:rgba(43,58,46,.14);--done:#7a9c6b;--card:#fbf6ec;--shadow:0 2px 0 rgba(43,58,46,.06),0 8px 24px -12px rgba(43,58,46,.35);}
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   html,body{margin:0;padding:0;}
-  body{
-    background:var(--paper);
-    background-image:radial-gradient(circle at 12% 8%,rgba(217,131,36,.07),transparent 40%),radial-gradient(circle at 88% 92%,rgba(47,93,79,.08),transparent 45%);
-    color:var(--ink);
-    font-family:'Hanken Grotesk',sans-serif;
-    -webkit-font-smoothing:antialiased;
-    padding-bottom:160px;
-    min-height:100vh;
-  }
+  body{background:var(--paper);background-image:radial-gradient(circle at 12% 8%,rgba(217,131,36,.07),transparent 40%),radial-gradient(circle at 88% 92%,rgba(47,93,79,.08),transparent 45%);color:var(--ink);font-family:'Hanken Grotesk',sans-serif;-webkit-font-smoothing:antialiased;padding-bottom:175px;min-height:100vh;}
   .wrap{max-width:680px;margin:0 auto;padding:0 18px;}
-  header{padding:calc(env(safe-area-inset-top) + 26px) 0 16px;}
+  header{padding:calc(env(safe-area-inset-top) + 22px) 0 6px;}
   .kicker{font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:var(--amber-d);font-weight:700;}
-  h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(38px,11vw,58px);line-height:.92;margin:6px 0 4px;letter-spacing:-.02em;color:var(--green-d);}
+  h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(36px,10vw,54px);line-height:.92;margin:6px 0 4px;letter-spacing:-.02em;color:var(--green-d);}
   h1 em{font-style:italic;font-weight:500;color:var(--amber);}
-  .sub{font-size:15px;color:var(--ink-soft);max-width:36ch;line-height:1.45;}
+  .sub{font-size:15px;color:var(--ink-soft);max-width:38ch;line-height:1.45;}
   .flag{display:inline-block;width:14px;height:14px;border-radius:3px;background:linear-gradient(135deg,var(--amber),var(--rust));vertical-align:-1px;margin-right:2px;}
-
-  .resume{display:none;margin:18px 0 2px;background:var(--green);color:#f3ebdd;border-radius:16px;padding:14px 16px;box-shadow:var(--shadow);align-items:center;gap:12px;cursor:pointer;border:none;width:100%;text-align:left;}
+  .tabs{display:flex;gap:8px;margin:18px 0 4px;}
+  .tab{flex:1;text-align:center;padding:11px;border-radius:13px;font-weight:700;font-size:15px;background:var(--card);border:1px solid var(--line);color:var(--ink-soft);cursor:pointer;}
+  .tab.active{background:var(--green);color:#f3ebdd;border-color:var(--green);}
+  .tab .badge{display:inline-block;min-width:20px;padding:0 6px;margin-left:6px;border-radius:99px;background:var(--amber);color:#fff;font-size:12px;line-height:20px;}
+  .resume{display:none;margin:14px 0 2px;background:var(--green);color:#f3ebdd;border-radius:16px;padding:14px 16px;box-shadow:var(--shadow);align-items:center;gap:12px;cursor:pointer;border:none;width:100%;text-align:left;}
   .resume.show{display:flex;}
-  .resume .ricon{font-size:22px;flex:0 0 auto;}
-  .resume .rtxt{flex:1;min-width:0;}
+  .resume .ricon{font-size:20px;}
   .resume .rlbl{font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:.7;font-weight:700;}
-  .resume .rtitle{font-family:'Fraunces',serif;font-size:18px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-
-  .bar{display:flex;align-items:center;justify-content:space-between;margin:24px 0 10px;}
+  .resume .rtitle{font-family:'Fraunces',serif;font-size:18px;font-weight:600;}
+  .bar{display:flex;align-items:center;justify-content:space-between;margin:20px 0 10px;}
   .bar h2{font-family:'Fraunces',serif;font-size:20px;font-weight:600;margin:0;color:var(--green-d);}
   .toggle{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink-soft);cursor:pointer;user-select:none;}
   .sw{width:42px;height:24px;border-radius:99px;background:var(--line);position:relative;transition:background .2s;flex:0 0 auto;}
   .sw::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .2s;}
   .toggle.on .sw{background:var(--green);}
   .toggle.on .sw::after{left:20px;}
-
   ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px;}
-  .lesson{
-    display:flex;align-items:center;gap:14px;background:var(--card);
-    border:1px solid var(--line);border-radius:18px;padding:14px 15px;
-    cursor:pointer;box-shadow:var(--shadow);transition:transform .12s ease,border-color .2s,background .2s;
-    min-height:72px;
-  }
+  .lesson{display:flex;align-items:center;gap:13px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:13px 14px;cursor:pointer;box-shadow:var(--shadow);transition:transform .12s,border-color .2s,background .2s;min-height:72px;}
   .lesson:active{transform:scale(.985);}
   .lesson.playing{border-color:var(--amber);background:#fff;}
   .lesson.playing .num{background:var(--amber);color:#fff;}
-  .num{flex:0 0 auto;width:46px;height:46px;border-radius:13px;background:var(--paper2);color:var(--green-d);
-    font-family:'Fraunces',serif;font-weight:600;font-size:20px;display:flex;align-items:center;justify-content:center;position:relative;}
+  .num{flex:0 0 auto;width:44px;height:44px;border-radius:13px;background:var(--paper2);color:var(--green-d);font-family:'Fraunces',serif;font-weight:600;font-size:19px;display:flex;align-items:center;justify-content:center;}
   .lesson.done .num{background:var(--done);color:#fff;}
   .meta{flex:1;min-width:0;}
-  .sv{font-family:'Fraunces',serif;font-size:19px;font-weight:600;color:var(--ink);line-height:1.1;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-  .nltopic{font-size:13.5px;color:var(--ink-soft);margin-top:3px;}
-  .right{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:7px;}
+  .sv{font-family:'Fraunces',serif;font-size:18px;font-weight:600;color:var(--ink);line-height:1.1;}
+  .nltopic{font-size:13px;color:var(--ink-soft);margin-top:3px;}
+  .right{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
   .dur{font-size:12px;font-weight:700;color:var(--amber-d);background:rgba(217,131,36,.12);padding:3px 8px;border-radius:99px;}
-  .check{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;color:transparent;transition:all .2s;background:transparent;}
-  .lesson.done .check{background:var(--done);border-color:var(--done);color:#fff;}
-  .eqbars{display:none;gap:2px;align-items:flex-end;height:16px;}
-  .lesson.playing.is-playing .eqbars{display:flex;}
-  .eqbars i{width:3px;background:var(--amber);border-radius:2px;animation:eq .9s ease-in-out infinite;}
-  .eqbars i:nth-child(2){animation-delay:.25s;} .eqbars i:nth-child(3){animation-delay:.5s;}
-  @keyframes eq{0%,100%{height:5px}50%{height:16px}}
-
-  footer{margin:34px 0 10px;text-align:center;font-size:12px;color:var(--ink-soft);line-height:1.6;}
-  footer a{color:var(--green);}
-
-  /* PLAYER */
-  .player{position:fixed;left:0;right:0;bottom:0;z-index:50;
-    background:linear-gradient(180deg,var(--green) 0%,var(--green-d) 100%);
-    color:#f3ebdd;padding:12px 16px calc(env(safe-area-inset-bottom) + 12px);
-    box-shadow:0 -10px 30px -12px rgba(0,0,0,.5);transform:translateY(120%);transition:transform .32s cubic-bezier(.2,.8,.2,1);}
+  .wbtn{font-size:11px;font-weight:700;color:var(--green-d);background:var(--paper2);padding:4px 9px;border-radius:99px;border:none;cursor:pointer;}
+  footer{margin:30px 0 10px;text-align:center;font-size:12px;color:var(--ink-soft);line-height:1.6;}
+  .player{position:fixed;left:0;right:0;bottom:0;z-index:50;background:linear-gradient(180deg,var(--green) 0%,var(--green-d) 100%);color:#f3ebdd;padding:10px 16px calc(env(safe-area-inset-bottom) + 10px);box-shadow:0 -10px 30px -12px rgba(0,0,0,.5);transform:translateY(130%);transition:transform .32s cubic-bezier(.2,.8,.2,1);}
   .player.up{transform:translateY(0);}
-  .pwrap{max-width:680px;margin:0 auto;}
-  .pmeta{display:flex;align-items:baseline;gap:8px;margin-bottom:8px;}
-  .pnum{font-family:'Fraunces',serif;font-weight:600;color:var(--amber);font-size:14px;flex:0 0 auto;}
-  .ptitle{font-family:'Fraunces',serif;font-size:17px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;}
-  .ptime{font-size:12px;font-variant-numeric:tabular-nums;opacity:.75;flex:0 0 auto;}
-  .scrub{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:99px;background:rgba(243,235,221,.25);outline:none;margin:2px 0 12px;}
+  .pwrap{max-width:680px;margin:0 auto;position:relative;}
+  .pmeta{display:flex;align-items:baseline;gap:8px;margin-bottom:7px;}
+  .pnum{font-family:'Fraunces',serif;font-weight:600;color:var(--amber);font-size:14px;}
+  .ptitle{font-family:'Fraunces',serif;font-size:16px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;}
+  .ptime{font-size:12px;font-variant-numeric:tabular-nums;opacity:.75;}
+  .scrub{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:99px;background:rgba(243,235,221,.25);outline:none;margin:1px 0 9px;}
   .scrub::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--amber);box-shadow:0 1px 4px rgba(0,0,0,.4);}
-  .scrub::-moz-range-thumb{width:20px;height:20px;border:none;border-radius:50%;background:var(--amber);}
-  .ctrls{display:flex;align-items:center;justify-content:center;gap:22px;}
-  .pbtn{background:none;border:none;color:#f3ebdd;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:8px;}
-  .pbtn svg{width:30px;height:30px;display:block;}
-  .pbtn.sec svg{width:26px;height:26px;opacity:.92;}
-  .pbtn.big{background:var(--amber);width:64px;height:64px;border-radius:50%;box-shadow:0 4px 14px -4px rgba(0,0,0,.5);}
-  .pbtn.big svg{width:32px;height:32px;color:#fff;}
+  .ctrls{display:flex;align-items:center;justify-content:center;gap:18px;}
+  .pbtn{background:none;border:none;color:#f3ebdd;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:7px;}
+  .pbtn svg{width:28px;height:28px;display:block;}
+  .pbtn.sec svg{width:25px;height:25px;opacity:.92;}
+  .pbtn.big{background:var(--amber);width:60px;height:60px;border-radius:50%;box-shadow:0 4px 14px -4px rgba(0,0,0,.5);}
+  .pbtn.big svg{width:30px;height:30px;color:#fff;}
   .pbtn:active{transform:scale(.92);}
-  .pbtn:disabled{opacity:.3;}
-  .skipgap{font-size:10px;position:absolute;font-weight:700;}
+  .txtbtn{position:absolute;right:0;top:-2px;background:rgba(243,235,221,.16);border:none;color:#f3ebdd;font-weight:700;font-size:12px;padding:7px 12px;border-radius:99px;cursor:pointer;}
+  .sheet{position:fixed;inset:0;z-index:60;background:var(--paper);transform:translateY(100%);transition:transform .3s ease;display:flex;flex-direction:column;}
+  .sheet.up{transform:translateY(0);}
+  .sheethead{padding:calc(env(safe-area-inset-top) + 14px) 18px 12px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;background:var(--card);}
+  .sheethead .stitle{flex:1;font-family:'Fraunces',serif;font-weight:600;font-size:18px;color:var(--green-d);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .sheethead button{background:var(--paper2);border:none;width:38px;height:38px;border-radius:50%;font-size:18px;color:var(--ink);cursor:pointer;}
+  .studyhint{margin:10px 18px 0;font-size:13px;color:var(--ink-soft);line-height:1.45;}
+  .saveall{margin:10px 18px 0;width:calc(100% - 36px);padding:13px;border-radius:13px;border:none;background:var(--green);color:#f3ebdd;font-weight:700;font-size:15px;cursor:pointer;}
+  .saveall.done{background:var(--done);}
+  .cues{flex:1;overflow-y:auto;padding:12px 18px 40px;-webkit-overflow-scrolling:touch;}
+  .vrow{display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:14px;margin-bottom:8px;background:var(--card);border:1px solid var(--line);cursor:pointer;}
+  .vrow:active{background:#fff;}
+  .vtext{flex:1;min-width:0;}
+  .vsv{font-family:'Fraunces',serif;font-size:19px;font-weight:600;color:var(--green-d);line-height:1.2;}
+  .vnl{font-size:14.5px;color:var(--ink-soft);margin-top:2px;}
+  .vadd{flex:0 0 auto;width:34px;height:34px;border-radius:50%;border:2px solid var(--line);background:transparent;color:var(--ink-soft);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .vrow.saved .vadd{background:var(--done);border-color:var(--done);color:#fff;}
+  .dict{position:fixed;left:0;right:0;bottom:0;z-index:70;background:var(--card);border-radius:22px 22px 0 0;box-shadow:0 -10px 40px -10px rgba(0,0,0,.4);transform:translateY(110%);transition:transform .28s ease;padding:18px 20px calc(env(safe-area-inset-bottom) + 20px);}
+  .dict.up{transform:translateY(0);}
+  .dword{font-family:'Fraunces',serif;font-size:27px;font-weight:600;color:var(--green-d);padding-right:30px;}
+  .dnl{font-size:17px;color:var(--ink);margin-top:4px;min-height:22px;}
+  .dnl.empty{color:var(--ink-soft);font-style:italic;}
+  .dlinks{display:flex;gap:9px;margin-top:16px;flex-wrap:wrap;}
+  .dlinks a,.dsave{flex:1;text-align:center;padding:12px;border-radius:13px;font-weight:700;font-size:14px;text-decoration:none;cursor:pointer;border:none;}
+  .dlinks a{background:var(--paper2);color:var(--green-d);}
+  .dsave{background:var(--green);color:#f3ebdd;}
+  .dsave.saved{background:var(--done);}
+  .dclose{position:absolute;right:16px;top:14px;background:none;border:none;font-size:22px;color:var(--ink-soft);cursor:pointer;}
+  .review{padding:6px 0 20px;}
+  .revcard{background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:36px 24px;text-align:center;margin-bottom:16px;min-height:200px;display:flex;flex-direction:column;justify-content:center;}
+  .revsv{font-family:'Fraunces',serif;font-size:32px;font-weight:600;color:var(--green-d);}
+  .revnl{font-size:20px;color:var(--ink);margin-top:14px;}
+  .revhint{font-size:13px;color:var(--ink-soft);margin-top:18px;}
+  .revtag{font-size:12px;color:var(--amber-d);font-weight:700;margin-top:8px;}
+  .revbtns{display:flex;gap:9px;}
+  .revbtns button{flex:1;padding:15px 6px;border-radius:14px;border:none;font-weight:700;font-size:13px;cursor:pointer;color:#fff;}
+  .rev-again{background:var(--rust);}.rev-hard{background:var(--amber-d);}.rev-good{background:var(--green);}.rev-easy{background:var(--done);}
+  .revflip{width:100%;padding:15px;border-radius:14px;border:none;background:var(--green);color:#f3ebdd;font-weight:700;font-size:15px;cursor:pointer;}
+  .revempty{text-align:center;color:var(--ink-soft);padding:50px 20px;font-size:16px;line-height:1.6;}
+  .revstat{text-align:center;font-size:13px;color:var(--ink-soft);margin-bottom:14px;}
+  .revreset{display:block;margin:8px auto 0;background:none;border:none;color:var(--ink-soft);font-size:12px;text-decoration:underline;cursor:pointer;}
+  .hidden{display:none!important;}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <div class="kicker">Coffee Break &middot; Seizoen 1</div>
-    <h1>Svenska<br><em>i bilen</em></h1>
-    <p class="sub"><span class="flag"></span> 40 lessen Zweeds. Tik op een les &mdash; speelt direct. Gemaakt voor onderweg.</p>
+    <h1>Svenska <em>i bilen</em></h1>
+    <p class="sub"><span class="flag"></span> Luister, lees de kernwoorden mee, en herhaal ze slim.</p>
+    <div class="tabs">
+      <div class="tab active" id="tabLes" onclick="showTab('les')">Lessen</div>
+      <div class="tab" id="tabOef" onclick="showTab('oef')">Oefenen<span class="badge" id="dueBadge">0</span></div>
+    </div>
   </header>
-
-  <button class="resume" id="resume">
-    <span class="ricon">&#9654;</span>
-    <span class="rtxt"><span class="rlbl">Hervatten</span><span class="rtitle" id="resumeTitle"></span></span>
-  </button>
-
-  <div class="bar">
-    <h2>Lessen</h2>
-    <div class="toggle" id="autoToggle"><span>Auto-volgende</span><span class="sw"></span></div>
+  <div id="viewLes">
+    <button class="resume" id="resume"><span class="ricon">&#9654;</span><span><span class="rlbl">Hervatten</span><br><span class="rtitle" id="resumeTitle"></span></span></button>
+    <div class="bar"><h2>Lessen</h2><div class="toggle" id="autoToggle"><span>Auto-volgende</span><span class="sw"></span></div></div>
+    <ul id="list"></ul>
+    <footer>Audio &copy; Coffee Break Languages / Radio Lingua.<br>Woordenlijst is een gecureerde themaselectie &mdash; aanpasbaar.<br>Voortgang &amp; deck lokaal bewaard op je iPhone.</footer>
   </div>
-
-  <ul id="list"></ul>
-
-  <footer>
-    Audio &copy; Coffee Break Languages / Radio Lingua. Gratis podcast.<br>
-    Voortgang wordt lokaal op je iPhone bewaard.
-  </footer>
+  <div id="viewOef" class="hidden"><div class="review" id="reviewArea"></div></div>
 </div>
 
-<div class="player" id="player">
-  <div class="pwrap">
-    <div class="pmeta">
-      <span class="pnum" id="pnum">01</span>
-      <span class="ptitle" id="ptitle">&mdash;</span>
-      <span class="ptime" id="ptime">0:00 / 0:00</span>
-    </div>
-    <input type="range" class="scrub" id="scrub" min="0" max="1000" value="0">
-    <div class="ctrls">
-      <button class="pbtn sec" id="prev" aria-label="Vorige">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM20 5l-11 7 11 7z"/></svg>
-      </button>
-      <button class="pbtn sec" id="back15" aria-label="15 terug" style="position:relative">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4 7 8l4 4"/><path d="M7 8h7a5 5 0 1 1 0 10h-3"/></svg>
-      </button>
-      <button class="pbtn big" id="play" aria-label="Afspelen">
-        <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        <svg id="pauseIcon" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-      </button>
-      <button class="pbtn sec" id="fwd15" aria-label="15 vooruit" style="position:relative">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 4l4 4-4 4"/><path d="M17 8h-7a5 5 0 1 0 0 10h3"/></svg>
-      </button>
-      <button class="pbtn sec" id="next" aria-label="Volgende">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM4 5l11 7-11 7z"/></svg>
-      </button>
-    </div>
+<div class="player" id="player"><div class="pwrap">
+  <button class="txtbtn" id="openTxt">&#128214; Woorden</button>
+  <div class="pmeta"><span class="pnum" id="pnum">01</span><span class="ptitle" id="ptitle">&mdash;</span></div>
+  <input type="range" class="scrub" id="scrub" min="0" max="1000" value="0">
+  <div class="pmeta" style="margin:-4px 0 6px"><span class="ptime" id="ptime">0:00 / 0:00</span></div>
+  <div class="ctrls">
+    <button class="pbtn sec" id="prev"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM20 5l-11 7 11 7z"/></svg></button>
+    <button class="pbtn sec" id="back15"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4 7 8l4 4"/><path d="M7 8h7a5 5 0 1 1 0 10h-3"/></svg></button>
+    <button class="pbtn big" id="play"><svg id="playIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><svg id="pauseIcon" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button>
+    <button class="pbtn sec" id="fwd15"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 4l4 4-4 4"/><path d="M17 8h-7a5 5 0 1 0 0 10h3"/></svg></button>
+    <button class="pbtn sec" id="next"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM4 5l11 7-11 7z"/></svg></button>
+  </div>
+</div></div>
+
+<div class="sheet" id="sheet">
+  <div class="sheethead"><button id="closeSheet">&#10005;</button><span class="stitle" id="sheetTitle">Kernwoorden</span></div>
+  <div class="studyhint" id="studyHint"></div>
+  <button class="saveall" id="saveAll">+ Alle woorden in herhaal-deck</button>
+  <div class="cues" id="cues"></div>
+</div>
+
+<div class="dict" id="dict">
+  <button class="dclose" id="dictClose">&#10005;</button>
+  <div class="dword" id="dWord"></div>
+  <div class="dnl" id="dNl"></div>
+  <div class="dlinks">
+    <a id="dWik" target="_blank" rel="noopener">Wiktionary</a>
+    <a id="dTr" target="_blank" rel="noopener">Vertaal</a>
+    <button class="dsave" id="dSave">+ Bewaar</button>
   </div>
 </div>
 
 <audio id="audio" preload="none"></audio>
-
 <script>
 const EPISODES = [{"ep": 1, "sv": "Hur m\u00e5r du?", "nl": "Begroeten \u00b7 hoe gaat het", "dur": "20 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.01-hurmardu--howareyou-/media.mp3"}, {"ep": 2, "sv": "Vad heter du?", "nl": "Naam vragen & geven", "dur": "24 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.02-vadheterdu-/media.mp3"}, {"ep": 3, "sv": "Var kommer du ifr\u00e5n?", "nl": "Waar kom je vandaan \u00b7 landen", "dur": "26 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.03-varkommerduifran--wheredoyoucomefrom-/media.mp3"}, {"ep": 4, "sv": "Var bor du?", "nl": "Waar woon je", "dur": "23 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.04-sayingwhereyoulive/media.mp3"}, {"ep": 5, "sv": "Det h\u00e4r \u00e4r min v\u00e4n", "nl": "Iemand voorstellen", "dur": "24 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.05-dethararminvan/media.mp3"}, {"ep": 6, "sv": "Jag har tv\u00e5 systrar", "nl": "Familie \u00b7 broers & zussen", "dur": "25 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.06-jaghartvasystrar/media.mp3"}, {"ep": 7, "sv": "Kan du visa p\u00e5 kartan?", "nl": "Aanwijzen op de kaart", "dur": "22 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.07-kanduvisapakartan-/media.mp3"}, {"ep": 8, "sv": "Var ligger apoteket?", "nl": "De weg vragen", "dur": "22 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.08-varliggerapoteket-/media.mp3"}, {"ep": 9, "sv": "Jag pratar lite svenska", "nl": "\u201cIk spreek wat Zweeds\u201d", "dur": "26 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.09-jagpratarlitesvenska/media.mp3"}, {"ep": 10, "sv": "Vad har vi l\u00e4rt oss?", "nl": "Herhaling les 1\u20139", "dur": "31 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.10-vadharvilartoss-/media.mp3"}, {"ep": 11, "sv": "En kaffe, tack", "nl": "Koffie bestellen", "dur": "29 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.11-enkaffe-tack/media.mp3"}, {"ep": 12, "sv": "Vad vill du best\u00e4lla?", "nl": "Eten bestellen \u00b7 menu", "dur": "29 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.12-vadvilldubestalla-/media.mp3"}, {"ep": 13, "sv": "Har ni n\u00e5got ledigt bord?", "nl": "Tafel vragen in restaurant", "dur": "38 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.12-harninagotledigtbord-/media.mp3"}, {"ep": 14, "sv": "Jag har bokat ett rum", "nl": "Hotelkamer \u00b7 ik heb geboekt", "dur": "31 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.14-jagharbokatettrum/media.mp3"}, {"ep": 15, "sv": "Nittonhundrasjuttiofyra", "nl": "Cijfers & jaartallen", "dur": "42 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.15-nittonhundrasjuttiofyra/media.mp3"}, {"ep": 16, "sv": "Har ni dalah\u00e4star", "nl": "Winkelen \u00b7 souvenirs", "dur": "40 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.16-harnidalahastar/media.mp3"}, {"ep": 17, "sv": "Jag vill hyra en cykel", "nl": "Iets huren (fiets)", "dur": "33 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.17-jagvillhyraencykel/media.mp3"}, {"ep": 18, "sv": "T\u00e5get avg\u00e5r kl 18:23", "nl": "Treintijden", "dur": "31 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.18-tagetavgarkl18-23/media.mp3"}, {"ep": 19, "sv": "Hur mycket \u00e4r klockan?", "nl": "Klokkijken", "dur": "26 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.19-hurmycketarklockan-/media.mp3"}, {"ep": 20, "sv": "F\u00e5r jag fr\u00e5ga en sak?", "nl": "Herhaling les 11\u201319", "dur": "35 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.20-farjagfragaensak/media.mp3"}, {"ep": 21, "sv": "Vad \u00e4r det f\u00f6r v\u00e4der?", "nl": "Het weer", "dur": "25 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.21-vadardetforvader-/media.mp3"}, {"ep": 22, "sv": "Jag har ont i huvudet", "nl": "Lichaam \u00b7 ik heb pijn", "dur": "25 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.22-jagharontihuvudet/media.mp3"}, {"ep": 23, "sv": "Jag beh\u00f6ver v\u00e4rktabletter", "nl": "Apotheek \u00b7 pijnstillers", "dur": "30 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.23-jagbehovervarktabletter/media.mp3"}, {"ep": 24, "sv": "Hur ser han ut?", "nl": "Mensen beschrijven", "dur": "30 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.24-hurserhanut-/media.mp3"}, {"ep": 25, "sv": "Jag tycker om kaffe", "nl": "Voorkeuren \u00b7 ik hou van", "dur": "25 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.25-jagtyckeromkaffe/media.mp3"}, {"ep": 26, "sv": "Varf\u00f6r l\u00e4r du dig svenska?", "nl": "Waarom leer je Zweeds", "dur": "31 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.26-varforlardudigsvenska-/media.mp3"}, {"ep": 27, "sv": "Hur stavas det?", "nl": "Alfabet & spellen", "dur": "25 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.27-hurstavasdet-/media.mp3"}, {"ep": 28, "sv": "Vad jobbar du med?", "nl": "Beroepen \u00b7 wat doe je", "dur": "28 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.28-vadjobbardumed-/media.mp3"}, {"ep": 29, "sv": "Kan jag f\u00e5 prata med Per?", "nl": "Telefoneren", "dur": "29 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.29-kanjagfapratamedper-/media.mp3"}, {"ep": 30, "sv": "Vem \u00e4r jag?", "nl": "Herhaling-quiz", "dur": "21 min", "mp3": "https://sphinx.acast.com/coffeebreakswedish/cbsw1.30-vemarjag-/media.mp3"}, {"ep": 31, "sv": "V\u00e4lkomna till Sverige!", "nl": "Aankomst in Zweden", "dur": "34 min", "mp3": "https://sphinx.acast.com/p/acast/s/coffeebreakswedish/e/619bb18eb5d561001ae837d9/media.mp3"}, {"ep": 32, "sv": "Jag vill \u00e5ka till \u00d6rebro", "nl": "Reizen \u00b7 naar \u00d6rebro", "dur": "25 min", "mp3": "https://sphinx.acast.com/p/acast/s/coffeebreakswedish/e/61ae06e8165dc5001a0958c1/media.mp3"}, {"ep": 33, "sv": "Ha det trevligt h\u00e4r hos oss!", "nl": "Inchecken hotel", "dur": "24 min", "mp3": "https://sphinx.acast.com/p/acast/s/coffeebreakswedish/e/61bc94776928fc00160e66f8/media.mp3"}, {"ep": 34, "sv": "Ska ni \u00e4ta frukost?", "nl": "Ontbijt", "dur": "28 min", "mp3": "https://sphinx.acast.com/p/acast/s/coffeebreakswedish/e/61e040d3da22ee0012c9110d/media.mp3"}, {"ep": 35, "sv": "S\u00e4ljer ni vykort?", "nl": "Ansichtkaarten kopen", "dur": "23 min", "mp3": "https://sphinx.acast.com/p/acast/s/coffeebreakswedish/e/61f3cb23409c6400129023c8/media.mp3"}, {"ep": 36, "sv": "Vad finns det att g\u00f6ra och se h\u00e4r?", "nl": "VVV \u00b7 wat te zien", "dur": "27 min", "mp3": "https://sphinx.acast.com/p/acast/s/coffeebreakswedish/e/62065a5e9a4401001776bf6b/media.mp3"}, {"ep": 37, "sv": "F\u00f6lj med till kassan", "nl": "Bij de kassa", "dur": "28 min", "mp3": "https://sphinx.acast.com/p/acast/s/coffeebreakswedish/e/62179f59b7a5ba00137e50a9/media.mp3"}, {"ep": 38, "sv": "Jag skulle beh\u00f6va k\u00f6pa solkr\u00e4m", "nl": "Apotheek \u00b7 zonnebrand", "dur": "22 min", "mp3": "https://sphinx.acast.com/p/acast/s/coffeebreakswedish/e/622b28930b2d50001362f250/media.mp3"}, {"ep": 39, "sv": "Grattis p\u00e5 f\u00f6delsedagen!", "nl": "Verjaardag \u00b7 smalltalk", "dur": "24 min", "mp3": "https://sphinx.acast.com/p/acast/s/coffeebreakswedish/e/623d9daf0bbc6600121d5a2d/media.mp3"}, {"ep": 40, "sv": "Det har varit j\u00e4ttekul!", "nl": "Verleden tijd \u00b7 afsluiter", "dur": "21 min", "mp3": "https://sphinx.acast.com/p/acast/s/coffeebreakswedish/e/62501d365988210012e5378d/media.mp3"}];
-const KEY='svenska_bilen_v1';
+const VOCAB = {"1": [["Hej", "Hallo"], ["God morgon", "Goedemorgen"], ["God kv\u00e4ll", "Goedenavond"], ["God natt", "Goedenacht"], ["Hur m\u00e5r du?", "Hoe gaat het?"], ["Bra, tack", "Goed, dank je"], ["Och du?", "En jij?"], ["Vi ses", "Tot ziens"], ["Hej d\u00e5", "Dag / tot ziens"], ["Tack", "Dank je"]], "2": [["Vad heter du?", "Hoe heet je?"], ["Jag heter...", "Ik heet..."], ["Trevligt att tr\u00e4ffas", "Aangenaam kennis te maken"], ["Vad \u00e4r ditt namn?", "Wat is je naam?"], ["Mitt namn \u00e4r...", "Mijn naam is..."]], "3": [["Var kommer du ifr\u00e5n?", "Waar kom je vandaan?"], ["Jag kommer fr\u00e5n...", "Ik kom uit..."], ["Nederl\u00e4nderna", "Nederland"], ["Sverige", "Zweden"], ["ett land", "een land"], ["en stad", "een stad"]], "4": [["Var bor du?", "Waar woon je?"], ["Jag bor i...", "Ik woon in..."], ["ett hus", "een huis"], ["en l\u00e4genhet", "een appartement"], ["en gata", "een straat"]], "5": [["Det h\u00e4r \u00e4r...", "Dit is..."], ["min v\u00e4n", "mijn vriend(in)"], ["en kompis", "een maatje/vriend"], ["han heter", "hij heet"], ["hon heter", "zij heet"]], "6": [["en familj", "een gezin/familie"], ["en mamma", "een moeder"], ["en pappa", "een vader"], ["en bror", "een broer"], ["en syster", "een zus"], ["ett barn", "een kind"], ["en son", "een zoon"], ["en dotter", "een dochter"]], "7": [["en karta", "een kaart"], ["h\u00e4r", "hier"], ["d\u00e4r", "daar"], ["till h\u00f6ger", "naar rechts"], ["till v\u00e4nster", "naar links"], ["rakt fram", "rechtdoor"]], "8": [["Var ligger...?", "Waar ligt...?"], ["ett apotek", "een apotheek"], ["en aff\u00e4r", "een winkel"], ["en station", "een station"], ["Urs\u00e4kta", "Pardon/sorry"], ["Hur kommer jag till...?", "Hoe kom ik bij...?"]], "9": [["Jag pratar lite svenska", "Ik spreek wat Zweeds"], ["Talar du engelska?", "Spreek je Engels?"], ["Jag f\u00f6rst\u00e5r inte", "Ik begrijp het niet"], ["Kan du upprepa?", "Kun je het herhalen?"], ["l\u00e5ngsamt", "langzaam"]], "10": [["Vad har vi l\u00e4rt oss?", "Wat hebben we geleerd?"], ["en repetition", "een herhaling"], ["f\u00f6rst\u00e5", "begrijpen"], ["komma ih\u00e5g", "onthouden"]], "11": [["en kaffe", "een koffie"], ["en kopp kaffe", "een kopje koffie"], ["ett te", "een thee"], ["Vars\u00e5god", "Alsjeblieft (aanbieden)"], ["en bulle", "een broodje/bolletje"], ["en kanelbulle", "een kaneelbroodje"]], "12": [["Jag vill best\u00e4lla", "Ik wil bestellen"], ["en meny", "een menu"], ["Vad rekommenderar du?", "Wat raad je aan?"], ["notan, tack", "de rekening, graag"], ["r\u00e4kningen", "de rekening"]], "13": [["ett bord", "een tafel"], ["f\u00f6r tv\u00e5 personer", "voor twee personen"], ["Har ni ett ledigt bord?", "Heeft u een vrije tafel?"], ["en servit\u00f6r", "een ober"]], "14": [["Jag har bokat ett rum", "Ik heb een kamer geboekt"], ["en nyckel", "een sleutel"], ["en natt", "een nacht"], ["incheckning", "inchecken"]], "15": [["ett", "een (1)"], ["tv\u00e5", "twee"], ["tre", "drie"], ["fyra", "vier"], ["fem", "vijf"], ["sex", "zes"], ["sju", "zeven"], ["\u00e5tta", "acht"], ["nio", "negen"], ["tio", "tien"], ["hundra", "honderd"], ["tusen", "duizend"]], "16": [["en dalah\u00e4st", "een Dalapaard"], ["Vad kostar det?", "Wat kost het?"], ["dyr", "duur"], ["billig", "goedkoop"], ["en present", "een cadeau"]], "17": [["Jag vill hyra", "Ik wil huren"], ["en cykel", "een fiets"], ["en bil", "een auto"], ["Hur mycket per dag?", "Hoeveel per dag?"]], "18": [["ett t\u00e5g", "een trein"], ["avg\u00e5r", "vertrekt"], ["ankommer", "komt aan"], ["en biljett", "een kaartje"], ["ett sp\u00e5r", "een perron/spoor"], ["f\u00f6rsenad", "vertraagd"]], "19": [["Hur mycket \u00e4r klockan?", "Hoe laat is het?"], ["Klockan \u00e4r...", "Het is ... uur"], ["en timme", "een uur"], ["en minut", "een minuut"], ["halv", "half"], ["kvart", "kwart"]], "20": [["F\u00e5r jag fr\u00e5ga en sak?", "Mag ik iets vragen?"], ["en fr\u00e5ga", "een vraag"], ["ett svar", "een antwoord"]], "21": [["Vad \u00e4r det f\u00f6r v\u00e4der?", "Wat voor weer is het?"], ["det regnar", "het regent"], ["det sn\u00f6ar", "het sneeuwt"], ["solen skiner", "de zon schijnt"], ["kallt", "koud"], ["varmt", "warm"], ["molnigt", "bewolkt"]], "22": [["Jag har ont i...", "Ik heb pijn aan..."], ["huvudet", "het hoofd"], ["magen", "de buik/maag"], ["en rygg", "een rug"], ["en hals", "een keel/hals"], ["sjuk", "ziek"]], "23": [["v\u00e4rktabletter", "pijnstillers"], ["en medicin", "een medicijn"], ["ett recept", "een recept"], ["feber", "koorts"]], "24": [["Hur ser han ut?", "Hoe ziet hij eruit?"], ["l\u00e5ng", "lang"], ["kort", "kort/klein"], ["ljus", "licht/blond"], ["m\u00f6rk", "donker"], ["sn\u00e4ll", "aardig"]], "25": [["Jag tycker om...", "Ik hou van..."], ["Jag gillar...", "Ik vind ... leuk"], ["Jag \u00e4lskar...", "Ik hou van (sterk)"], ["Jag tycker inte om...", "Ik hou niet van..."]], "26": [["Varf\u00f6r?", "Waarom?"], ["d\u00e4rf\u00f6r att", "omdat"], ["Jag l\u00e4r mig svenska", "Ik leer Zweeds"], ["f\u00f6r att", "om te"]], "27": [["Hur stavas det?", "Hoe spel je dat?"], ["en bokstav", "een letter"], ["att stava", "spellen"], ["alfabetet", "het alfabet"]], "28": [["Vad jobbar du med?", "Wat voor werk doe je?"], ["en l\u00e4rare", "een leraar"], ["en l\u00e4kare", "een dokter"], ["en ingenj\u00f6r", "een ingenieur"], ["pension\u00e4r", "gepensioneerd"]], "29": [["Kan jag f\u00e5 prata med...?", "Kan ik spreken met...?"], ["ett \u00f6gonblick", "een ogenblik"], ["att ringa", "bellen"], ["ett samtal", "een gesprek"]], "30": [["Vem \u00e4r jag?", "Wie ben ik?"], ["att gissa", "raden"], ["r\u00e4tt", "juist"], ["fel", "fout"]], "31": [["V\u00e4lkommen till Sverige", "Welkom in Zweden"], ["en flygplats", "een vliegveld"], ["en gr\u00e4ns", "een grens"], ["ett pass", "een paspoort"]], "32": [["Jag vill \u00e5ka till...", "Ik wil naar ... gaan"], ["en buss", "een bus"], ["en taxi", "een taxi"], ["en resa", "een reis"]], "33": [["Ha det trevligt", "Veel plezier"], ["en reception", "een receptie"], ["bagage", "bagage"]], "34": [["frukost", "ontbijt"], ["ett \u00e4gg", "een ei"], ["br\u00f6d", "brood"], ["sm\u00f6r", "boter"], ["ost", "kaas"], ["kaffe", "koffie"]], "35": [["ett vykort", "een ansichtkaart"], ["ett frim\u00e4rke", "een postzegel"], ["en brevl\u00e5da", "een brievenbus"], ["posten", "de post"]], "36": [["Vad finns det att g\u00f6ra?", "Wat is er te doen?"], ["en sev\u00e4rdhet", "een bezienswaardigheid"], ["ett museum", "een museum"], ["en kyrka", "een kerk"]], "37": [["kassan", "de kassa"], ["att betala", "betalen"], ["kontant", "contant"], ["ett kort", "een (pin)kaart"], ["ett kvitto", "een bon"]], "38": [["solkr\u00e4m", "zonnebrand"], ["sol", "zon"], ["att br\u00e4nna", "verbranden"], ["en hatt", "een hoed"], ["skydd", "bescherming"]], "39": [["Grattis p\u00e5 f\u00f6delsedagen", "Gefeliciteerd met je verjaardag"], ["en present", "een cadeau"], ["att fira", "vieren"], ["en t\u00e5rta", "een taart"]], "40": [["Det har varit j\u00e4ttekul", "Het was heel leuk"], ["Tack f\u00f6r...", "Bedankt voor..."], ["ig\u00e5r", "gisteren"], ["att l\u00e4ra sig", "leren"], ["en resa", "een reis"]]};
+const KEY='svenska_bilen_v3';
+const SRS='svenska_srs_v1';
 const $=s=>document.querySelector(s);
 const audio=$('#audio');
 let state={done:{},last:null,pos:{},auto:false};
+let srs={};
 let current=null;
-
-// safe storage (works in real Safari, no-op in sandbox)
-function load(){try{const r=localStorage.getItem(KEY);if(r)state=Object.assign(state,JSON.parse(r));}catch(e){}}
+function load(){try{let r=localStorage.getItem(KEY);if(r)state=Object.assign(state,JSON.parse(r));}catch(e){}
+                try{let s=localStorage.getItem(SRS);if(s)srs=JSON.parse(s);}catch(e){}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
-
-function fmt(s){if(!s||isNaN(s))return'0:00';s=Math.floor(s);const m=Math.floor(s/60),x=s%60;return m+':'+String(x).padStart(2,'0');}
+function saveSrs(){try{localStorage.setItem(SRS,JSON.stringify(srs));}catch(e){}updateDue();}
+function fmt(s){if(!s||isNaN(s))return'0:00';s=Math.floor(s);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');}
 function pad(n){return String(n).padStart(2,'0');}
+function epById(n){return EPISODES.find(e=>e.ep===n);}
+function cardId(sv){return 'c:'+sv;}
 
 function render(){
   const ul=$('#list');ul.innerHTML='';
@@ -183,111 +190,136 @@ function render(){
     const li=document.createElement('li');
     li.className='lesson'+(state.done[ep.ep]?' done':'')+(current===ep.ep?' playing':'');
     li.dataset.ep=ep.ep;
-    li.innerHTML=`
-      <div class="num">${pad(ep.ep)}</div>
-      <div class="meta">
-        <div class="sv">${ep.sv}<span class="eqbars"><i></i><i></i><i></i></span></div>
-        <div class="nltopic">${ep.nl}</div>
-      </div>
-      <div class="right">
-        <span class="dur">${ep.dur}</span>
-        <button class="check" aria-label="Afgevinkt">&#10003;</button>
-      </div>`;
+    li.innerHTML='<div class="num">'+pad(ep.ep)+'</div><div class="meta"><div class="sv">'+ep.sv+'</div><div class="nltopic">'+ep.nl+'</div></div><div class="right"><span class="dur">'+ep.dur+'</span><button class="wbtn">woorden</button></div>';
     li.addEventListener('click',e=>{
-      if(e.target.closest('.check')){toggleDone(ep.ep);e.stopPropagation();return;}
+      if(e.target.closest('.wbtn')){current=ep.ep;openStudy(ep.ep);e.stopPropagation();return;}
       playEp(ep.ep);
     });
     ul.appendChild(li);
   });
   updateResume();
 }
-
-function toggleDone(n){state.done[n]=!state.done[n];save();render();}
-
-function epById(n){return EPISODES.find(e=>e.ep===n);}
+function updateResume(){const r=$('#resume');if(state.last&&!current){const ep=epById(state.last);if(ep){$('#resumeTitle').textContent=pad(ep.ep)+' \u00b7 '+ep.sv;r.classList.add('show');}}else r.classList.remove('show');}
+$('#resume').addEventListener('click',()=>{if(state.last)playEp(state.last);});
 
 function playEp(n,seek){
-  const ep=epById(n);if(!ep)return;
-  current=n;state.last=n;save();
-  $('#pnum').textContent=pad(ep.ep);
-  $('#ptitle').textContent=ep.sv;
+  const ep=epById(n);if(!ep)return;current=n;state.last=n;save();
+  $('#pnum').textContent=pad(ep.ep);$('#ptitle').textContent=ep.sv;
   const resumeAt=(seek!=null)?seek:(state.pos[n]||0);
   audio.src=ep.mp3;
-  if(resumeAt>0){
-    audio.addEventListener('loadedmetadata',function once(){
-      try{ if(resumeAt<(audio.duration||1e9)) audio.currentTime=resumeAt; }catch(e){}
-      audio.removeEventListener('loadedmetadata',once);
-    });
-  }
-  audio.load();
-  audio.play().catch(()=>{});   /* synchroon binnen tik-gebaar -> iOS staat afspelen toe */
-  $('#player').classList.add('up');
-  render();
+  if(resumeAt>0){audio.addEventListener('loadedmetadata',function once(){try{if(resumeAt<(audio.duration||1e9))audio.currentTime=resumeAt;}catch(e){}audio.removeEventListener('loadedmetadata',once);});}
+  audio.load();audio.play().catch(()=>{});
+  $('#player').classList.add('up');render();
 }
-
-function setPlayingUI(p){
-  $('#playIcon').style.display=p?'none':'block';
-  $('#pauseIcon').style.display=p?'block':'none';
-  document.querySelectorAll('.lesson').forEach(l=>l.classList.toggle('is-playing',p&&+l.dataset.ep===current));
-}
-
-$('#play').addEventListener('click',()=>{
-  if(!current){playEp(EPISODES[0].ep);return;}
-  if(audio.paused)audio.play();else audio.pause();
-});
+function setPlayingUI(p){$('#playIcon').style.display=p?'none':'block';$('#pauseIcon').style.display=p?'block':'none';}
+$('#play').addEventListener('click',()=>{if(!current){playEp(EPISODES[0].ep);return;}if(audio.paused)audio.play();else audio.pause();});
 $('#prev').addEventListener('click',()=>{if(current>1)playEp(current-1);});
 $('#next').addEventListener('click',()=>{if(current<EPISODES.length)playEp(current+1);});
 $('#back15').addEventListener('click',()=>{audio.currentTime=Math.max(0,audio.currentTime-15);});
 $('#fwd15').addEventListener('click',()=>{audio.currentTime=Math.min(audio.duration||0,audio.currentTime+15);});
-
 audio.addEventListener('play',()=>setPlayingUI(true));
 audio.addEventListener('pause',()=>setPlayingUI(false));
-audio.addEventListener('timeupdate',()=>{
-  const d=audio.duration||0,c=audio.currentTime||0;
-  $('#ptime').textContent=fmt(c)+' / '+fmt(d);
-  $('#scrub').value=d?Math.round(c/d*1000):0;
-  if(current){state.pos[current]=c; if(Math.floor(c)%5===0)save();}
-});
-audio.addEventListener('ended',()=>{
-  if(current){state.done[current]=true;state.pos[current]=0;save();}
-  if(state.auto&&current<EPISODES.length){playEp(current+1);}else{render();}
-});
-$('#scrub').addEventListener('input',e=>{
-  const d=audio.duration||0;if(d)audio.currentTime=e.target.value/1000*d;
-});
-
-// auto-next toggle
-const at=$('#autoToggle');
-function syncAuto(){at.classList.toggle('on',state.auto);}
+audio.addEventListener('timeupdate',()=>{const d=audio.duration||0,c=audio.currentTime||0;$('#ptime').textContent=fmt(c)+' / '+fmt(d);$('#scrub').value=d?Math.round(c/d*1000):0;if(current){state.pos[current]=c;if(Math.floor(c)%5===0)save();}});
+audio.addEventListener('ended',()=>{if(current){state.done[current]=true;state.pos[current]=0;save();}if(state.auto&&current<EPISODES.length)playEp(current+1);else render();});
+$('#scrub').addEventListener('input',e=>{const d=audio.duration||0;if(d)audio.currentTime=e.target.value/1000*d;});
+const at=$('#autoToggle');function syncAuto(){at.classList.toggle('on',state.auto);}
 at.addEventListener('click',()=>{state.auto=!state.auto;save();syncAuto();});
 
-// resume banner
-function updateResume(){
-  const r=$('#resume');
-  if(state.last&&!current){
-    const ep=epById(state.last);
-    if(ep){$('#resumeTitle').textContent=pad(ep.ep)+' · '+ep.sv;r.classList.add('show');}
-  }else{r.classList.remove('show');}
-}
-$('#resume').addEventListener('click',()=>{if(state.last)playEp(state.last);});
-
-// media session (lockscreen / CarPlay controls)
-function setupMedia(){
-  if(!('mediaSession'in navigator))return;
-  audio.addEventListener('loadedmetadata',()=>{
-    const ep=epById(current);if(!ep)return;
-    navigator.mediaSession.metadata=new MediaMetadata({
-      title:ep.sv,artist:'Les '+pad(ep.ep)+' · '+ep.nl,album:'Svenska i bilen'});
+/* ---------- STUDY (kernwoorden) ---------- */
+let studyLesson=null;
+function openStudy(n){
+  studyLesson=n;
+  $('#sheetTitle').textContent=pad(n)+' \u00b7 '+epById(n).sv;
+  const items=VOCAB[n]||[];
+  $('#studyHint').textContent=items.length? 'Tik een rij voor vertaling & opslaan. De '+items.length+' kernwoorden van dit thema.' : 'Voor deze les is nog geen woordenlijst toegevoegd.';
+  const box=$('#cues');box.innerHTML='';
+  items.forEach(([sv,nl])=>{
+    const saved=!!srs[cardId(sv)];
+    const row=document.createElement('div');
+    row.className='vrow'+(saved?' saved':'');
+    row.innerHTML='<div class="vtext"><div class="vsv">'+sv+'</div><div class="vnl">'+nl+'</div></div><button class="vadd">'+(saved?'\u2713':'+')+'</button>';
+    row.addEventListener('click',e=>{
+      if(e.target.closest('.vadd')){toggleCard(sv,nl,n);openStudy(n);e.stopPropagation();return;}
+      openDict(sv,nl,n);
+    });
+    box.appendChild(row);
   });
+  updateSaveAll();
+  $('#sheet').classList.add('up');
+}
+function updateSaveAll(){
+  const items=VOCAB[studyLesson]||[];
+  const all=items.length>0 && items.every(([sv])=>srs[cardId(sv)]);
+  const b=$('#saveAll');
+  b.classList.toggle('done',all);
+  b.textContent=all?'\u2713 Hele les staat in je deck':'+ Alle woorden in herhaal-deck';
+  b.classList.toggle('hidden',items.length===0);
+}
+$('#saveAll').addEventListener('click',()=>{
+  const items=VOCAB[studyLesson]||[];
+  const all=items.every(([sv])=>srs[cardId(sv)]);
+  items.forEach(([sv,nl])=>{const id=cardId(sv);if(all){delete srs[id];}else if(!srs[id]){srs[id]={sv,nl,lesson:studyLesson,due:Date.now(),iv:0,ease:2.5,reps:0};}});
+  saveSrs();openStudy(studyLesson);
+});
+$('#openTxt').addEventListener('click',()=>{if(current!=null)openStudy(current);});
+$('#closeSheet').addEventListener('click',()=>$('#sheet').classList.remove('up'));
+
+function toggleCard(sv,nl,lesson){const id=cardId(sv);if(srs[id])delete srs[id];else srs[id]={sv,nl,lesson,due:Date.now(),iv:0,ease:2.5,reps:0};saveSrs();}
+
+/* ---------- DICTIONARY ---------- */
+let dSv='',dNl='',dLesson=null;
+function openDict(sv,nl,lesson){
+  dSv=sv;dNl=nl;dLesson=lesson;
+  $('#dWord').textContent=sv;
+  const nlEl=$('#dNl');
+  if(nl){nlEl.textContent=nl;nlEl.classList.remove('empty');}else{nlEl.textContent='Tik Vertaal of Wiktionary';nlEl.classList.add('empty');}
+  $('#dWik').href='https://sv.wiktionary.org/wiki/'+encodeURIComponent(sv.split(' ')[0].replace(/[.,!?]/g,''));
+  $('#dTr').href='https://translate.google.com/?sl=sv&tl=nl&op=translate&text='+encodeURIComponent(sv);
+  const sb=$('#dSave');const saved=!!srs[cardId(sv)];
+  sb.textContent=saved?'\u2713 Bewaard':'+ Bewaar';sb.classList.toggle('saved',saved);
+  $('#dict').classList.add('up');
+}
+$('#dictClose').addEventListener('click',()=>$('#dict').classList.remove('up'));
+$('#dSave').addEventListener('click',()=>{toggleCard(dSv,dNl,dLesson);const saved=!!srs[cardId(dSv)];$('#dSave').textContent=saved?'\u2713 Bewaard':'+ Bewaar';$('#dSave').classList.toggle('saved',saved);if($('#sheet').classList.contains('up'))openStudy(studyLesson);});
+
+/* ---------- SRS ---------- */
+const DAY=86400000;
+function dueCards(){const now=Date.now();return Object.keys(srs).filter(id=>srs[id].due<=now).map(id=>({id,...srs[id]}));}
+function updateDue(){$('#dueBadge').textContent=dueCards().length;}
+let revQueue=[],revIdx=0,revFlipped=false;
+function startReview(){revQueue=dueCards();revIdx=0;revFlipped=false;renderReview();}
+function renderReview(){
+  const area=$('#reviewArea');const total=Object.keys(srs).length;
+  if(!total){area.innerHTML='<div class="revempty">Nog geen woorden in je deck.<br>Open <b>Woorden</b> bij een les en tik <b>+ Alle woorden in herhaal-deck</b>.</div>';return;}
+  if(!revQueue.length||revIdx>=revQueue.length){revQueue=dueCards();revIdx=0;}
+  if(!revQueue.length){area.innerHTML='<div class="revstat">'+total+' woorden in je deck</div><div class="revempty">\u2728 Niks te herhalen nu.<br>Kom later terug \u2014 herhalingen worden uitgesmeerd in de tijd.</div><button class="revreset" onclick="resetDeck()">deck wissen</button>';return;}
+  const c=revQueue[revIdx];
+  area.innerHTML='<div class="revstat">'+(revIdx+1)+' / '+revQueue.length+' te herhalen \u00b7 '+total+' in deck</div>'+
+    '<div class="revcard"><div class="revsv">'+c.sv+'</div>'+
+    (revFlipped?'<div class="revnl">'+(c.nl||'(geen vertaling)')+'</div><div class="revtag">les '+pad(c.lesson)+'</div>':'<div class="revhint">Wat betekent dit?</div>')+'</div>'+
+    (revFlipped?'<div class="revbtns"><button class="rev-again" onclick="grade(0)">Opnieuw</button><button class="rev-hard" onclick="grade(3)">Lastig</button><button class="rev-good" onclick="grade(4)">Goed</button><button class="rev-easy" onclick="grade(5)">Makkelijk</button></div>':'<button class="revflip" onclick="flipCard()">Toon antwoord</button>')+
+    '<button class="revreset" onclick="resetDeck()">deck wissen</button>';
+}
+function flipCard(){revFlipped=true;renderReview();}
+function grade(q){const c=revQueue[revIdx];const card=srs[c.id];if(!card){revIdx++;revFlipped=false;renderReview();return;}
+  if(q<3){card.iv=0;card.reps=0;}else{card.reps++;card.ease=Math.max(1.3,card.ease+(0.1-(5-q)*(0.08+(5-q)*0.02)));if(card.reps===1)card.iv=1;else if(card.reps===2)card.iv=6;else card.iv=Math.round(card.iv*card.ease);}
+  card.due=Date.now()+(q<3?60000:card.iv*DAY);saveSrs();revIdx++;revFlipped=false;renderReview();}
+function resetDeck(){if(confirm('Hele herhaal-deck wissen?')){srs={};saveSrs();startReview();}}
+window.flipCard=flipCard;window.grade=grade;window.resetDeck=resetDeck;
+
+function showTab(t){$('#tabLes').classList.toggle('active',t==='les');$('#tabOef').classList.toggle('active',t==='oef');$('#viewLes').classList.toggle('hidden',t!=='les');$('#viewOef').classList.toggle('hidden',t!=='oef');if(t==='oef')startReview();}
+window.showTab=showTab;
+
+function setupMedia(){if(!('mediaSession'in navigator))return;
+  audio.addEventListener('loadedmetadata',()=>{const ep=epById(current);if(!ep)return;navigator.mediaSession.metadata=new MediaMetadata({title:ep.sv,artist:'Les '+pad(ep.ep)+' \u00b7 '+ep.nl,album:'Svenska i bilen'});});
   navigator.mediaSession.setActionHandler('play',()=>audio.play());
   navigator.mediaSession.setActionHandler('pause',()=>audio.pause());
   navigator.mediaSession.setActionHandler('previoustrack',()=>{if(current>1)playEp(current-1);});
   navigator.mediaSession.setActionHandler('nexttrack',()=>{if(current<EPISODES.length)playEp(current+1);});
   navigator.mediaSession.setActionHandler('seekbackward',()=>{audio.currentTime=Math.max(0,audio.currentTime-15);});
-  navigator.mediaSession.setActionHandler('seekforward',()=>{audio.currentTime=Math.min(audio.duration||0,audio.currentTime+15);});
-}
+  navigator.mediaSession.setActionHandler('seekforward',()=>{audio.currentTime=Math.min(audio.duration||0,audio.currentTime+15);});}
 
-load();syncAuto();render();setupMedia();
+load();syncAuto();render();setupMedia();updateDue();
 </script>
 </body>
 </html>
